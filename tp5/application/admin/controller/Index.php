@@ -28,6 +28,18 @@ class Index extends Controller
         return view();
     }
 
+    //用户注销
+    public function loginOut(Request $request){
+        if ($request->isAjax()){
+            Session::delete('admin');
+            if(!Session::has('admin')){
+                return json(['code'=>1,'msg'=>'注销成功','url'=>'login']);
+            }else{
+                return json(['code'=>0,'msg'=>'注销失败']);
+            }
+        }
+    }
+
     //后台首页
     public function index(){
         //判断用户是否已经登录
