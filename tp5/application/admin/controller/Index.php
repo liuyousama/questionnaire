@@ -32,7 +32,8 @@ class Index extends Controller
     public function index(){
         //判断用户是否已经登录
         if(Session::has('admin')){
-            $data = model('form')->with('user')->all();
+//            $data = model('form')->with('user')->all();
+            $data = model('form')->all();
             //将数据赋给前端模板
             $this->assign('data',$data);
             return view();
