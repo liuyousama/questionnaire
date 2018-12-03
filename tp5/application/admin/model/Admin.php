@@ -27,4 +27,16 @@ class Admin extends Model
         }
     }
 
+    public function passwordModify($password){
+        //根据session中的username找到对应的用户
+        $result = $this->where('username',Session::get('admin'))->find();
+        $result['password'] = $password;
+        if ($result->save()){
+            //1代表密码修改成功
+            return 1;
+        }else{
+            return '密码修改失败';
+        }
+    }
+
 }

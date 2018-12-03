@@ -54,4 +54,20 @@ class Index extends Controller
             $this->redirect('admin/index/login');
         }
     }
+
+    //用户修改密码
+    public function passwordModify(Request $request){
+        if ($request->isAjax()){
+            //接收数据
+            $password = input('post.password');
+            //将数据交给模型处理,并接受返回信息
+            $result = model('admin')->passwordModify($password);
+            //对结果进行判断,并返回给前端特定数据
+            if ($result==1){
+                return json(['code'=>1,'msg'=>'密码修改成功']);
+            }else{
+                return json(['code'=>0,'msg'=>$result]);
+            }
+        }
+    }
 }
