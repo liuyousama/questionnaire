@@ -70,4 +70,9 @@ class Index extends Controller
             }
         }
     }
+
+    //添加表单
+    public function addForm(){
+        return view();
+    }
 }
