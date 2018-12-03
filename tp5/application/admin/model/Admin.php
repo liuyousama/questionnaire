@@ -3,6 +3,7 @@
 namespace app\admin\model;
 
 use think\Model;
+use think\facade\Session;
 
 class Admin extends Model
 {
@@ -18,7 +19,9 @@ class Admin extends Model
         }
 
         if ($result){
-            return 0;
+            //登录时将用户的数据存入session中
+            Session::set('admin',$result['username']);
+            return 1;
         }else{
             return '用户名或密码错误';
         }

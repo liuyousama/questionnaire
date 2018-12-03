@@ -3,6 +3,7 @@
 namespace app\admin\controller;
 
 use think\Controller;
+use think\facade\Session;
 use think\Request;
 
 class Index extends Controller
@@ -25,5 +26,19 @@ class Index extends Controller
             }
         }
         return view();
+    }
+
+    //后台首页
+    public function index(){
+        //判断用户是否已经登录
+        if(Session::has('admin')){
+            $data = model('form')->with('user')->all();
+            //将数据赋给前端模板
+            $this->assign('data',$data);
+            return view();
+        }else{
+            //如果没有登录跳回登陆页面
+            $this->redirect('admin/index/login');
+        }
     }
 }
