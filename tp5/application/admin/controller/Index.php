@@ -72,7 +72,10 @@ class Index extends Controller
     }
 
     //添加表单
-    public function addForm(){
+    public function formAdd(Request $request){
+        if ($request->isAjax()){
+
+        }
         return view();
     }
 }
