@@ -74,7 +74,9 @@ class Index extends Controller
     //添加表单
     public function formAdd(Request $request){
         if ($request->isAjax()){
-
+            //从前台接收数据
+            $count = input('post.count');
+            $form=input('post.json');
         }
         return view();
     }

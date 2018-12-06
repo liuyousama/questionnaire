@@ -60,7 +60,7 @@ $(function () {
                         location.reload();
                     });
                 } else{
-                    later.open({
+                    layer.open({
                         title:'修改密码失败',
                         content:data.msg,
                         icon:5,

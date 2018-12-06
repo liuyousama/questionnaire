@@ -81,7 +81,31 @@ $(function () {
                 form.type = 4;
                 json.push(form);
             }
-            if (flag) {console.log(json);}
+            if (flag) {
+                $.ajax({
+                    url:'formAdd',
+                    type:'post',
+                    dataType:'json',
+                    data:{'count':count-1,'json':json,'title':$('.form-title').val()},
+                    success:function (data) {
+                        if (data.code==1){
+                            layer.msg(data.msg,{
+                                icon:6,
+                                time:1500
+                            },function(){
+                               location.href='index'
+                            });
+                        } else{
+                            layer.open({
+                                title:'问卷添加失败',
+                                content:data.msg,
+                                icon:5,
+                                anim:6
+                            });
+                        }
+                    }
+                });
+            }
         });
     });
 });
