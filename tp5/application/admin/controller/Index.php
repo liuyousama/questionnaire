@@ -75,8 +75,15 @@ class Index extends Controller
     public function formAdd(Request $request){
         if ($request->isAjax()){
             //从前台接收数据
-            $count = input('post.count');
+            $question = input('post.count');
             $form=input('post.json');
+            //将数据交给模型处理存进数据库，并接受返回信息
+            $result = model('Form')->formAdd($question,$form);
+            if ($result==1){
+                return json(['code'=>1,'msg'=>'问卷创建成功']);
+            }else{
+                return json(['code'=>1,'msg'=>$result]);
+            }
         }
         return view();
     }
