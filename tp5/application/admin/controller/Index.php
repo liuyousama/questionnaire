@@ -2,6 +2,7 @@
 
 namespace app\admin\controller;
 
+use app\admin\model\Form;
 use think\Controller;
 use think\facade\Session;
 use think\Request;
@@ -42,17 +43,16 @@ class Index extends Controller
 
     //后台首页
     public function index(){
-        //判断用户是否已经登录
-        if(Session::has('admin')){
+        //判断用户是否已经登录?
 //            $data = model('form')->with('user')->all();
             $data = model('form')->all();
             //将数据赋给前端模板
             $this->assign('data',$data);
             return view();
-        }else{
-            //如果没有登录跳回登陆页面
-            $this->redirect('admin/index/login');
-        }
+//        }else{
+//            //如果没有登录跳回登陆页面
+//            $this->redirect('admin/index/login');
+//        }
     }
 
     //用户修改密码
@@ -73,18 +73,24 @@ class Index extends Controller
 
     //添加表单
     public function formAdd(Request $request){
-        if ($request->isAjax()){
+        if ($request->isPost()){
             //从前台接收数据
-            $question = input('post.count');
-            $form=input('post.json');
+            $question = input('post.title');
+            $form = input('post.json');
             //将数据交给模型处理存进数据库，并接受返回信息
-            $result = model('Form')->formAdd($question,$form);
+            $model = new Form;
+            $result = $model->formAdd($question,$form);
             if ($result==1){
                 return json(['code'=>1,'msg'=>'问卷创建成功']);
             }else{
-                return json(['code'=>1,'msg'=>$result]);
+                return json(['code'=>0,'msg'=>$result]);
             }
         }
-        return view();
+        return $this->fetch();
+    }
+
+    public function test(){
+        $form = model('Form')->save(['question'=>'测试0','create_time'=>time()]);
+        return dump($form);
     }
 }
