@@ -21,7 +21,7 @@
 </div>
 <div class="col-sm-8">
     <div class="panel panel-default index-panel" style="margin-top: 10PX;">
-        <div class="panel-heading glyphicon glyphicon-tasks">
+        <div class="panel-heading">
             问卷列表&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<a href="formAdd" class="btn btn-primary">添加问卷</a>
         </div>
         <div class="panel-body">
@@ -35,43 +35,110 @@
                 </tr>
                 </thead>
                 <tbody>
+                {volist name='data' id='vo'}
                 <tr>
-                    <th>关于****的******</th>
-                    <th>0000-00-00 00:00</th>
-                    <th>267</th>
+                    <th>{$vo['name']}</th>
+                    <th>{$vo['create_time']|date='Y-m-d H:i'}</th>
+                    <th>{$vo['users']|count}</th>
                     <th><button class="btn btn-primary">查看结果</button>&nbsp<button class="btn btn-primary">删除问卷</button></th>
                 </tr>
-                <tr>
-                    <th>关于****的******</th>
-                    <th>0000-00-00 00:00</th>
-                    <th>267</th>
-                    <th><button class="btn btn-primary">查看结果</button>&nbsp<button class="btn btn-primary">删除问卷</button></th>
-                </tr>
-                <tr>
-                    <th>关于****的******</th>
-                    <th>0000-00-00 00:00</th>
-                    <th>267</th>
-                    <th><button class="btn btn-primary">查看结果</button>&nbsp<button class="btn btn-primary">删除问卷</button></th>
-                </tr>
+                {/volist}
                 </tbody>
             </table>
         </div>
     </div>
+    <div class="panel modify-panel" style="display: none;margin-top: 10px;">
+        <form class="form-group" id="modify-form" style="max-width: 600px;">
+            <label>请输入密码</label><br>
+            <input name="password" type="password" class="form-control" placeholder="请输入密码" id="password"><br>
+            <label>请确认密码</label><br>
+            <input name="confirm" type="password" class="form-control" placeholder="请输入确认密码" id="confirm"><br>
+            <button class="btn btn-primary btn-block" id="modify-btn">修改密码</button>
+        </form>
+    </div>
 </div>
-<div class="panel modify-panel" style="display: none">
-    <form class="form-group" id="modify-form">
-        <label>请输入密码</label>
-        <input name="password" type="password" class="form-control" placeholder="请输入密码" id="password">
-        <label>请确认密码</label>
-        <input name="confirm" type="password" class="form-control" placeholder="请输入确认密码" id="confirm">
-        <button class="btn btn-primary btn-block" id="modify-btn">修改密码</button>
-    </form>
-</div>
+
     <div class="col-md-2"></div>
 
 <script src="/static/js/jquery.js"></script>
 <script src="/static/lib/layer/layer.js"></script>
-<script src="/static/js/main.js"></script>
+<script>
+    $(function () {
+        $("#modify").click(function (e) {
+            e.preventDefault();
+            $(".panel").slideUp();
+            $(".modify-panel").slideDown();
+        });
+
+        $("#index").click(function (e) {
+            e.preventDefault();
+            $(".panel").slideUp();
+            $(".index-panel").slideDown();
+        });
+
+        $("#loginOut").click(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url:'loginOut',
+                type: 'post',
+                success:function (data) {
+                    if (data.code==1){
+                        layer.msg(data.msg,{
+                            icon:6,
+                            time:1500
+                        },function () {
+                            location.href = data.url;
+                        });
+                    } else{
+                        layer.open({
+                            title:'注销失败',
+                            content:data.msg,
+                            icon:5,
+                            anim:6
+                        });
+                    }
+                }
+            });
+        });
+
+        $("#modify-btn").click(function (e) {
+            e.preventDefault();
+            if (!$("#password").val()){layer.open({title:'密码不能为空!',icon:5,anim:6});return false;}
+            if($("#password").val()!=$("#confirm").val()){
+                layer.open({
+                    title:'修改密码失败',
+                    content:'两次输入密码不一致！！',
+                    icon:5,
+                    anim:6
+                });
+                return false;
+            }
+            $.ajax({
+                url:'passwordModify',
+                type:'post',
+                data:$("#modify-form").serialize(),
+                dataType:'json',
+                success:function (data) {
+                    if (data.code==1){
+                        layer.msg(data.msg,{
+                            icon:6,
+                            time:1500
+                        },function () {
+                            location.reload();
+                        });
+                    } else{
+                        layer.open({
+                            title:'修改密码失败',
+                            content:data.msg,
+                            icon:5,
+                            anim:6
+                        });
+                    }
+                }
+            });
+        });
+    });
+</script>
 
 </body>
 </html>

@@ -44,8 +44,8 @@ class Index extends Controller
     //后台首页
     public function index(){
         //判断用户是否已经登录?
-//            $data = model('form')->with('user')->all();
-            $data = model('form')->all();
+            $data = model('form')->with('users')->all();
+//            $data = model('form')->all();
             //将数据赋给前端模板
             $this->assign('data',$data);
             return view();
@@ -57,7 +57,7 @@ class Index extends Controller
 
     //用户修改密码
     public function passwordModify(Request $request){
-        if ($request->isAjax()){
+        if ($request->isPost()){
             //接收数据
             $password = input('post.password');
             //将数据交给模型处理,并接受返回信息
