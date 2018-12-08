@@ -40,7 +40,7 @@
                     <th>{$vo['name']}</th>
                     <th>{$vo['create_time']|date='Y-m-d H:i'}</th>
                     <th>{$vo['users']|count}</th>
-                    <th><button class="btn btn-primary">查看结果</button>&nbsp<button class="btn btn-primary">删除问卷</button></th>
+                    <th><a href="result/id/{$vo['Id']}" class="btn btn-primary">查看结果</a>&nbsp<button class="btn btn-primary">删除问卷</button></th>
                 </tr>
                 {/volist}
                 </tbody>
