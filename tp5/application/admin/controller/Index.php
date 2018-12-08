@@ -9,50 +9,19 @@ use think\Request;
 
 class Index extends Controller
 {
-    //后台登录
-    public function login(Request $request){
-        if ($request->isAjax()){
-            //从前台接受账号登陆数据
-            $data=[
-                'username' => input('post.username'),
-                'password' => input('post.password')
-            ];
-            //将数据交给模型检验并返回验证信息
-            $result = model('admin')->login($data);
-            //对结果进行处理，将数据返回前端
-            if ($result==1){
-                return json(['code'=>1,'msg'=>'登录成功','url'=>'index']);
-            }else{
-                return json(['code'=>0,'msg'=>$result]);
-            }
-        }
-        return view();
-    }
-
-    //用户注销
-    public function loginOut(Request $request){
-        if ($request->isAjax()){
-            Session::delete('admin');
-            if(!Session::has('admin')){
-                return json(['code'=>1,'msg'=>'注销成功','url'=>'login']);
-            }else{
-                return json(['code'=>0,'msg'=>'注销失败']);
-            }
+    //定义初始化方法，在用户执行方法之前都先检查session中是否有用户数据，以免没有登陆直接通过链接进入首页
+    public function initialize(){
+        if (!Session::has('admin')){
+            return $this->redirect('admin/account/login');
         }
     }
 
     //后台首页
     public function index(){
-        //判断用户是否已经登录?
             $data = model('form')->with('users')->all();
-//            $data = model('form')->all();
             //将数据赋给前端模板
             $this->assign('data',$data);
             return view();
-//        }else{
-//            //如果没有登录跳回登陆页面
-//            $this->redirect('admin/index/login');
-//        }
     }
 
     //查看问卷结果（详细信息）
@@ -74,7 +43,7 @@ class Index extends Controller
                 foreach ($form['users'] as $user){
                     array_push($temp,$user['answer'][$i]);
                 }
-                //将各个答案出现的次数存入带渲染数据中
+                //将各个答案出现的次数存入待渲染数据中
                 $item['count'] = array_count_values($temp);
                 $i++;
             }elseif ($item['type']==2){
@@ -130,9 +99,15 @@ class Index extends Controller
         return $this->fetch();
     }
 
-    public function test(){
-        $a = ['1','1','2','4','5'];
-        $this->assign('test',$a);
-        return view();
+    //用户注销
+    public function loginOut(Request $request){
+        if ($request->isAjax()){
+            Session::delete('admin');
+            if(!Session::has('admin')){
+                return json(['code'=>1,'msg'=>'注销成功','url'=>'/admin/account/login']);
+            }else{
+                return json(['code'=>0,'msg'=>'注销失败']);
+            }
+        }
     }
 }
