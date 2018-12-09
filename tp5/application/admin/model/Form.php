@@ -8,6 +8,7 @@ class Form extends Model
 {
     //设置表名
     protected $table = 'form';
+    protected $pk    = 'Id';
 
     //关联表结构
     public function structure(){

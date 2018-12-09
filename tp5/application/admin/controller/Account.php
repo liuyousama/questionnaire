@@ -4,6 +4,7 @@ namespace app\admin\controller;
 
 use think\Controller;
 use think\facade\Session;
+use think\Request;
 
 class Account extends Controller
 {

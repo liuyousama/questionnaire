@@ -99,6 +99,14 @@ class Index extends Controller
         return $this->fetch();
     }
 
+    //删除问卷
+    public function delete($id){
+        if(model('Form')->get($id)->delete()){
+            model('FormStructure')::destroy(model('FormStructure')->where('form_id',$id)->select());
+            return $this->success('删除成功','admin/index/index',$wait=1.5);
+        }
+    }
+
     //用户注销
     public function loginOut(Request $request){
         if ($request->isAjax()){
