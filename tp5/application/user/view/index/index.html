@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>调查问卷</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div class="container" style="margin-top: 20px;"></div>
+    {volist name='form' id='vo'}
+    <div class="panel panel-success" style="width: 80%;margin-left: 10%">
+        <div class="panel-heading">问卷 {$i}/{$form|count}</div>
+        <div class="panel-info"><label style="padding: 30px;">{$vo['name']}<br><br></label></div>
+        <div class="panel-footer"><div class="text-muted">发布时间：{$vo['create_time']|date = 'Y-m-d H:i:s'}</div></div>
+    </div>
+    {/volist}
+</body>
+</html>
