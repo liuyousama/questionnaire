@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>问卷详情</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/static/css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+<div class="col-sm-2"></div>
+<div class="col-sm-7">
+    <div class="panel panel-default" style="margin-top: 50px;">
+        <div class="panel-heading">{$title}</div>
+        <div class="panel-body">
+            {volist name='data' id='vo'}
+                {if $vo['type']==1||$vo['type']==2}
+                <div class="container" style="margin-bottom: 20px; max-width: 100%;">
+                    <label>$vo['question']</label>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th style="width: 33%;">选项</th>
+                            <th style="width: 33%;">选择人数</th>
+                            <th style="width: 33%;">占比</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {foreach $vo['choice'] as $key=>$choice}
+                        <tr>
+                            <th>{$choice}</th>
+                            <th>{$vo['count'][++$key]}</th>
+                            <th>{$vo['count'][++$key]/count($users)|round}</th>
+                        </tr>
+                        {/foreach}
+                        </tbody>
+                    </table>
+                </div>
+                {else /}
+                <div class="container" style="margin-bottom: 20px;max-width: 100%;">
+                    <label>$vo['question']</label>
+                    {foreach $vo['content'] as $key=>$content}
+                    <div class="text-muted" style="margin-top: 20px;">{$content}</div>
+                    <hr style="border-top:1px solid #666;" />
+                </div>
+
+                {/if}
+            {/volist}
+
+
+        </div>
+    </div>
+</div>
+<div class="col-sm-3"></div>
+</body>
+</html>

@@ -33,7 +33,7 @@ class Index extends Controller
             $user['answer']=explode('&&',$user['answer']);
         }
         //定义一个变量，用来记录问题的个数
-        $i = 1;
+        $i = 0;
         //将$form['structure']作为待渲染数据，对数据做一系列的处理
         foreach ($form['structure'] as $item){
             if($item['type']==1){
@@ -51,16 +51,24 @@ class Index extends Controller
                 //定义一个数组，将本题所有的答案存入该数组中
                 $temp=[];
                 foreach ($form['users'] as $user){
-                    array_push($temp,$user['answer'][$i]);
-                }
+                    foreach (explode(',',$user['answer'][$i]) as $value){
+                        array_push($temp,$value);
+                        }
+                    }
                 //将各个答案出现的次数存入带渲染数据中
+                $item['count'] = array_count_values($temp);
                 $i++;
                 //当问题类型不是选择型时（单选或多选），则不用对数据做任何处理，题号自增即可
             }else{
+                foreach ($form['users'] as $user){
+                    array_push($form['structure']['content'],$user['answer'][$i]);
+                }
                 $i++;
             }
         }
         $this->assign('data',$form['structure']);
+        $this->assign('title',$form['name']);
+        $this->assign('users',$form['users']);
         return view();
     }
 
