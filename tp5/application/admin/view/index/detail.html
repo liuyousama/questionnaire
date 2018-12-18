@@ -15,7 +15,7 @@
             {volist name='data' id='vo'}
                 {if $vo['type']==1||$vo['type']==2}
                 <div class="container" style="margin-bottom: 20px; max-width: 100%;">
-                    <label>$vo['question']</label>
+                    <label>{$vo['question']}</label>
                     <table class="table table-striped table-hover">
                         <thead>
                         <tr>
@@ -28,8 +28,8 @@
                         {foreach $vo['choice'] as $key=>$choice}
                         <tr>
                             <th>{$choice}</th>
-                            <th>{$vo['count'][++$key]}</th>
-                            <th>{$vo['count'][++$key]/count($users)|round}</th>
+                            <th>{if in_array(++$key,$vo['count'])}{$vo['count'][++$key]}{else /}0{/if}</th>
+                            <th>{if in_array(++$key,$vo['count'])}[++$key]/count($users)|round}%{else /}0{/if}</th>
                         </tr>
                         {/foreach}
                         </tbody>

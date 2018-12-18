@@ -20,7 +20,7 @@ class User extends Model
         }
         //检查cookie，form_status为0代表该设备已经提交过问卷
         if (Cookie::has('form_status')&&Cookie::get('form_status')==0){
-            return '同一问卷不可重复提价!!!';
+            return '同一问卷不可重复提交!!!';
         }
         //存储数据
         if($this->save($data)){

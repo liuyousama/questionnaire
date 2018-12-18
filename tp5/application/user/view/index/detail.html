@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>问卷调查网</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/static/css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+<div class="title container" style="margin-top:30px;font-weight:2px;font-size:23px;text-align:center;color:#0084FF">打击时间按擦爱那小程序？？</div>
+<hr style="border:none;border-top:2px solid #66CCFF">
+<form class="form-group">
+    {volist name='formStructure' id='vo'}
+        {if $vo['type']==2}
+        <div class="question container manyChoice" style="margin-top: 30px;text-align: center;font-size: 18px;">
+            <div class="text-muted" style="float: left;">(多选题，至多{$vo['maxCount']}项)</div><label>{$vo['question']}</label><br>
+            {foreach $vo['choice'] as $key=>$choice}
+            <input type="checkbox" name='{++$i}' value='{++$key}' maxCount={$vo['maxCount']}>{$choice}<br>
+            {/foreach}
+        </div>
+        {/if}
+        {/if $vo['type']==1}
+        <div class="question container singleChoice" style="margin-top: 30px;text-align: center;font-size: 18px;">
+            <div class="text-muted" style="float: left;">(单选题)</div><label>{$vo['question']}</label><br>
+            {foreach $vo['choice'] as $key=>$choice}
+            <input type="radio" name='{++$i}' value='{++$key}'>{$choice}<br>
+            {/foreach}
+        </div>
+        {/if}
+        {/if $vo['type']==3}
+        <div class="question container singleText" style="margin-top: 30px;text-align: center;font-size: 18px;">
+            <label>{$vo['question']}</label><br>
+            <input type="text" class="form-control" name="3">
+        </div>
+        {/if}
+        {/if $vo['type']==4}
+        <div class="question container manyText" style="margin-top: 30px;text-align: center;font-size: 18px;">
+            <label>{$vo['question']}</label><br>
+            <textarea name="4" class="form-control" style="width: 100% ;height: 100px;resize: none;"></textarea>
+        </div>
+        {/if}
+    {/volist}
+
+</form>
+<button class="btn btn-primary" style="width:30%;margin-left: 35%;">提交问卷</button>
+
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<script>
+    $("input[type='checkbox']").click(function(){
+        if($(this).parent().children('input:checked').length>=$(this).attr('maxCount')){
+            $(this).parent().children('input').attr('disabled','true');
+            $(this).parent().children('input:checked').removeAttr('disabled');
+        }
+        if($(this).parent().children('input:checked').length<$(this).attr('maxCount')){
+            $(this).parent().children().removeAttr('disabled');
+        }
+    });
+
+    $(function(){
+        $(".btn").click(function(e){
+            e.preventDefault();
+            var flag = true;
+            var json=[];
+            $('form').children().each(function(){
+                if ($(this).hasClass('manyChoice')) {
+                    var temp=[];
+                    $(this).children('input:checked').each(function(){temp.push($(this).val())});
+                    json.push(temp.join(','));
+                }
+                else if($(this).hasClass('singleChoice')){
+                    var temp=$(this).children('input:checked').val()?$(this).children('input:checked').val():"";
+                    json.push(temp);
+                }
+                else if($(this).hasClass('singleText')){
+                    json.push($(this).children('input').val());
+                }else{
+                    json.push($(this).children('textarea').val());
+                }
+
+            });
+            console.log(json);
+            json.forEach(function(value,index,array){
+                if (!value) {
+                    flag = false;
+                }
+            });
+
+
+            if(flag){
+                console.log('success');
+            }else{
+                alert('未填写完整！！');
+                return false;
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

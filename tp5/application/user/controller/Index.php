@@ -31,6 +31,13 @@ class Index extends Controller
             }
         }
         $form = model('Form')->where('Id',$id)->with('FormStructure')->find();
+        foreach ($form['structure'] as $item) {
+            if ($item['type'] == 1 || $item['type'] == 2) {
+                $item['choice'] = explode('&&', $item['choice']);
+            }
+        }
         $this->assign('form',$form);
+        $this->assign('formStructure',$form['FormStructure']);
+        return view();
     }
 }
