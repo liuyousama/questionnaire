@@ -28,8 +28,8 @@
                         {foreach $vo['choice'] as $key=>$choice}
                         <tr>
                             <th>{$choice}</th>
-                            <th>{if in_array(++$key,$vo['count'])}{$vo['count'][++$key]}{else /}0{/if}</th>
-                            <th>{if in_array(++$key,$vo['count'])}[++$key]/count($users)|round}%{else /}0{/if}</th>
+                            <th>{if in_array($key+1,$vo['count'])}{$vo['count'][$key+1]}{else /}0{/if}</th>
+                            <th>{if in_array($key+1,$vo['count'])}{$vo['count'][$key+1]*100/count($users)|round}%{else /}0{/if}</th>
                         </tr>
                         {/foreach}
                         </tbody>

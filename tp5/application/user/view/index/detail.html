@@ -79,8 +79,7 @@
                 }
 
             });
-            console.log(json);
-            json.forEach(function(value,index,array){
+            json.forEach(function(value){
                 if (!value) {
                     flag = false;
                 }
@@ -88,6 +87,7 @@
 
 
             if(flag){
+                json = json.join("&&");
                 $.ajax({
                     url: 'detail',
                     type:'post',
@@ -99,7 +99,7 @@
                                 icon:6,
                                 time:1500
                             },function () {
-                                location.href = 'index'
+                                location.href = data.url;
                             });
                         }else{
                             layer.open({

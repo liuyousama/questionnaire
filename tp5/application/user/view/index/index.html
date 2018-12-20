@@ -13,10 +13,8 @@
         <div class="panel-heading">问卷 {$i}/{$form|count}</div>
         <div class="panel-info"><label style="padding: 30px;">{$vo['name']}<br><br></label></div>
         <div class="panel-footer">
-            <div class="text-muted">
-                <span style="float:right;margin-top: 8px;">发布时间：{$vo['create_time']|date = 'Y-m-d H:i:s'}</span>
-                <button class="btn btn-primary" onclick="detail({$vo['Id']})">完成问卷</button>
-            </div>
+            <button class="btn btn-primary" onclick="detail({$vo['Id']})">完成问卷</button>
+            <div class="text-muted" style="margin-top: 10px;">发布时间：{$vo['create_time']|date = 'Y-m-d H:i:s'}</div>
 
         </div>
     </div>
