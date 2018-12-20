@@ -45,6 +45,7 @@
 <button class="btn btn-primary" style="width:30%;margin-left: 35%;">提交问卷</button>
 
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<script src="/static/lib/layer/layer.js"></script>
 <script>
     $("input[type='checkbox']").click(function(){
         if($(this).parent().children('input:checked').length>=$(this).attr('maxCount')){
@@ -87,7 +88,29 @@
 
 
             if(flag){
-                console.log('success');
+                $.ajax({
+                    url: 'detail',
+                    type:'post',
+                    dataType:'json',
+                    data:{'json':json},
+                    success:function (data) {
+                        if(data.code == 1){
+                            layer.msg(data.msg,{
+                                icon:6,
+                                time:1500
+                            },function () {
+                                location,href = 'index'
+                            });
+                        }else{
+                            layer.open({
+                                title:'问卷提交失败',
+                                content:data.msg,
+                                icon:5,
+                                anim:6
+                            });
+                        }
+                    }
+                });
             }else{
                 alert('未填写完整！！');
                 return false;
