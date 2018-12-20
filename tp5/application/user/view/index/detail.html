@@ -19,7 +19,7 @@
             {/foreach}
         </div>
         {/if}
-        {/if $vo['type']==1}
+        {if $vo['type']==1}
         <div class="question container singleChoice" style="margin-top: 30px;text-align: center;font-size: 18px;">
             <div class="text-muted" style="float: left;">(单选题)</div><label>{$vo['question']}</label><br>
             {foreach $vo['choice'] as $key=>$choice}
@@ -27,13 +27,13 @@
             {/foreach}
         </div>
         {/if}
-        {/if $vo['type']==3}
+        {if $vo['type']==3}
         <div class="question container singleText" style="margin-top: 30px;text-align: center;font-size: 18px;">
             <label>{$vo['question']}</label><br>
             <input type="text" class="form-control" name="3">
         </div>
         {/if}
-        {/if $vo['type']==4}
+        {if $vo['type']==4}
         <div class="question container manyText" style="margin-top: 30px;text-align: center;font-size: 18px;">
             <label>{$vo['question']}</label><br>
             <textarea name="4" class="form-control" style="width: 100% ;height: 100px;resize: none;"></textarea>
@@ -99,7 +99,7 @@
                                 icon:6,
                                 time:1500
                             },function () {
-                                location,href = 'index'
+                                location.href = 'index'
                             });
                         }else{
                             layer.open({
