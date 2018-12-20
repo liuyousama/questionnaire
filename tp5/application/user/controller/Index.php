@@ -25,9 +25,9 @@ class Index extends Controller
             $result = model('User')->answer($data);
             //对结果进行判断，并返回对应的数据给前端
             if ($result==1){
-                return json(['code'=>1,'msg'=>'问卷提交成功！','url'=>'index']);
+                return json(['code'=>1,'msg'=>'问卷提交成功！','url'=>'/user/index/index']);
             }else{
-                return json(['code'=>0,'msg'=>$result,'url'=>'index']);
+                return json(['code'=>0,'msg'=>$result]);
             }
         }
         $form = model('Form')->where('Id',$id)->with('FormStructure')->find();
